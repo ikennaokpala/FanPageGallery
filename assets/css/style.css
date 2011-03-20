@@ -1,0 +1,91 @@
+
+ul{
+    margin: 0 auto;
+    padding: 0;
+}
+
+/* The wider this li is, the fewer columns there will be */
+  ul.multiple_columns li{
+        text-align: left;
+        float: left;
+        list-style: none;
+        height: 280px;
+        width: 200px;
+    }
+
+#photofeed {
+    width: 612px; 
+}
+.overlay{
+    background:transparent url('../images/overlay.png') repeat top left;
+    position:fixed;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    z-index:100;
+}
+.box{
+    position:fixed;
+    top:-700px;
+    left:30%;
+    right:30%;
+    background-color:#eaeaea;
+    color:#7F7F7F;
+    font-size: 14px;
+    font-weight: bold;
+    padding:20px;
+    border:2px solid #ccc;
+    -moz-border-radius: 20px;
+    -webkit-border-radius:20px;
+    -khtml-border-radius:20px;
+    -moz-box-shadow: 0 1px 5px #333;
+    -webkit-box-shadow: 0 1px 5px #333;
+    z-index:101;
+}
+
+a.boxclose{
+    float:right;
+    width:26px;
+    height:26px;
+    background:transparent url('../images/cancel.png') repeat top left;
+    margin-top:-30px;
+    margin-right:-30px;
+    cursor:pointer;
+}
+
+div#box {
+  /* width: 1083px; height: 518px; padding: 15px 0 0 12px;*/
+   background: url(../images/border.png);
+  /* overflow: scroll;*/ /* Allows the slides to be viewed using scrollbar if Javascript isn't available */ 
+   position: relative;/* z-index: 5;*/
+}
+div#box ul#nav {
+   /*display: none;*/
+   list-style: none;
+   position: relative;  /*z-index: 15;*/
+}
+div#box ul#nav li#prev {
+   float: left; margin: 0 0 0 40px;
+}
+div#box ul#nav li#next {
+   float: right; margin: 0 50px 0 0;
+}
+div#box ul#nav li a {
+   display: block; width: 80px; height: 80px; text-indent: -9999px;
+}
+div#box ul#nav li#prev a {
+   background: url(../images/prev.png);
+}
+div#box ul#nav li#next a {
+   background: url(../images/next.png);
+}
+
+div#box ul#slides {
+   list-style: none;
+}
+div#box ul#slides li {
+   margin: 0 0 20px 0;
+}
+
+a {outline: none; }
