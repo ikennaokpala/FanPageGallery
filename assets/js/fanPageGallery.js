@@ -27,7 +27,7 @@ var GetAlbums = {
     },
     getAlbumCollection: function(){
         
-        var facebook = $('.fbphotofeed');
+        var groupAlbums = $('.fbphotofeed');
         var tag_id = "";
         var html = "<ul class='multiple_columns'>";
         $.ajax({
@@ -49,32 +49,40 @@ var GetAlbums = {
                 });
                   html += "</ul>";
                 // console.log(html);
-                facebook.animate({ opacity:0}, 500, function(){
+                groupAlbums.animate({ opacity:0}, 500, function(){
                     // console.log(html);
-                    facebook.html(html);
+                    groupAlbums.html(html);
                     // $('.facebookfeed').append(html);
                 });
-                facebook.animate({opacity:1}, 500);
+                groupAlbums.animate({opacity:1}, 500);
                 
             }
         });
     },
     getPhotos: function(album_id){
-        var facebook = $('#box');
-        var html = "<ul id='slides'>";
+        
+        var groupPhotos = $('.fbphotofeed');
+        var html = "<ul class='multiple_columns'>";
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
             //  console.log("inside getJson call, I got clicked "+album_id);
-            
+           
+
             $.each(json.data, function(i, fb){
-                html += "<li><img src=" + fb.source + "/>";
+               
+                html += "<li><img src=" + fb.source + " width='180' height='180' border='1'/>";
                 html += "<span>"+ (typeof fb.name === "undefined" ? "CYW Photos" : fb.name)+"</span></li>";
                 // console.log("This is the name "+fb.name+" this is the count "+i);
             });
             html += "</ul>";
-           console.log(html)
-            facebook.append(html);
-        }); 
-        GetAlbums.callOverlay();
+            // console.log(html)
+          
+            groupPhotos.animate({ opacity:0}, 500, function(){
+                   groupPhotos.html(html);
+                }) 
+        
+            groupPhotos.animate({opacity:1}, 500);
+        })
+       // GetAlbums.callOverlay();
         
     },
     getFirstPhoto : function (album_id){
@@ -82,7 +90,7 @@ var GetAlbums = {
         var pselector = "#album-cover-"+album_id;
         // console.log("i got called");
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
-            photo ="<a href='javascript:void(0)' class='album-cover-image-"+album_id+"' onclick='GetAlbums.getPhotos("+album_id+")' ><img src="+ json.data[0].source+" width='180' height='180' /></a><br/>";
+            photo ="<a href='#' class='album-cover-image-"+album_id+"' onclick='GetAlbums.getPhotos("+album_id+")' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
             $($.trim(pselector)).prepend(photo);
             // console.log("ID is: "+album_id+" Photo from getJson: "+photo);
             
