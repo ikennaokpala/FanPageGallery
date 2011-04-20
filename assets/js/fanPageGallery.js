@@ -1,6 +1,7 @@
 jQuery(function($) {
+   
     if(GetAlbums.isInt(GetAlbums.getUrlVars().id) & GetAlbums.getUrlVars().id > 0)
-        GetAlbums.getPhotos(GetAlbums.getUrlVars().id);
+        GetAlbums.getPhotos(GetAlbums.getUrlVars().id, unescape(GetAlbums.getUrlVars().albumname));
     else
         GetAlbums.getAlbumCollection();
 });
@@ -22,7 +23,7 @@ var GetAlbums = {
                        
                     }else{
                         tag_id = "album-cover-"+fb.id;
-                        GetAlbums.getFirstPhoto(fb.id);
+                        GetAlbums.getFirstPhoto(fb.id, fb.name);
                         html += "<li id="+tag_id+">";
                         html += "<span>" + fb.name + "</span><br/> <input class='album_id' type='hidden' value="+fb.id+" ></li>";
                         //console.log("Finished loop number: "+i)
@@ -37,14 +38,14 @@ var GetAlbums = {
                 
             }, 
             error: function(httpObject, textStatus, jpXHR){
-                $('.fbphotofeed').html("<span style='background: red; color: white;'><h1> 500: Internal server error. </h1></span>")
+                $('.fbphotofeed').html("<span style='background: red; color: white;'><h1> 500: Internal server error. Refresh your browser and try again. </h1></span>")
             }
         });
     },
-    getPhotos: function(album_id){
+    getPhotos: function(album_id, album_name){
         
         var groupPhotos = $('.fbphotofeed');
-        var html = "<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><br/><br/><ul class='multiple_columns'>";
+        var html = "<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><h1>Pictures from "+album_name+" Album. </h1><br/><ul class='multiple_columns'>";
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
             $.each(json.data, function(i, fb){
               var imagestring = "<img src='"+fb.source+"' alt='CYW' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+ (typeof fb.name === "undefined" ? "CYW Photos" : fb.name)+"&quot;, CENTER);' onmouseout='nd();'/>"
@@ -58,13 +59,13 @@ var GetAlbums = {
                 }) 
         
             groupPhotos.animate({opacity:1}, 500);
-        }).error(function() { $('.fbphotofeed').html("<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><span style='background: red; color: white;'><h1> 500: Internal server error. </h1></span>"); })
+        }).error(function() { $('.fbphotofeed').html("<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><span style='background: red; color: white;'><h1> 500: Internal server error. Refresh your browser and try again. </h1></span>"); })
     },
-    getFirstPhoto : function (album_id){
+    getFirstPhoto : function (album_id, album_name){
         var photo;
         var pselector = "#album-cover-"+album_id;
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
-            photo ="<a href='?id="+album_id+"' class='album-cover-image-"+album_id+"' onclick='GetAlbums.getPhotos("+album_id+")' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
+            photo ="<a href='?id="+album_id+"&albumname="+album_name+"' class='album-cover-image-"+album_id+"' onclick='GetAlbums.getPhotos("+album_id+")' onmouseover='return overlib(\&quot;Click here to view more pictures from the "+album_name+" Album.\&quot;);' onmouseout='nd();' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
             $($.trim(pselector)).prepend(photo);
         });
     },
