@@ -1,16 +1,11 @@
-$(function() {
-  
-  
-    GetAlbums.getAlbumCollection();
+jQuery(function($) {
+    if(GetAlbums.isInt(GetAlbums.getUrlVars().id) & GetAlbums.getUrlVars().id > 0)
+        GetAlbums.getPhotos(GetAlbums.getUrlVars().id);
+    else
+        GetAlbums.getAlbumCollection();
 });
 
 var GetAlbums = {
-    
-    alert_me: function(){
-        
-        //console.log("i got called")
-        //alert("i got called also !! :)")
-    },
     getAlbumCollection: function(){
         
         var groupAlbums = $('.fbphotofeed');
@@ -20,10 +15,11 @@ var GetAlbums = {
             type: "GET",
             url: "http://graph.facebook.com/Community.of.Yahweh.Worldwide/albums?callback=?",
             dataType: "json",
-            success: function(json) {
+            success: function(json, textStatus, jpXHR) {
+               
                 $.each(json.data, function(i, fb){
                     if(fb.name=="Profile Pictures" || fb.name=="Wall Photos" || fb.name=="Community of Yahweh Women Association Conference 2010"){
-                        // console.log("ID is: "+fb.id+" Album name is: "+fb.name+" Not Included :)");
+                       
                     }else{
                         tag_id = "album-cover-"+fb.id;
                         GetAlbums.getFirstPhoto(fb.id);
@@ -34,53 +30,42 @@ var GetAlbums = {
                     }
                 });
                   html += "</ul>";
-                // console.log(html);
                 groupAlbums.animate({ opacity:0}, 500, function(){
-                    // console.log(html);
                     groupAlbums.html(html);
-                    // $('.facebookfeed').append(html);
                 });
                 groupAlbums.animate({opacity:1}, 500);
                 
+            }, 
+            error: function(httpObject, textStatus, jpXHR){
+                $('.fbphotofeed').html("<span style='background: red; color: white;'><h1> 500: Internal server error. </h1></span>")
             }
         });
     },
     getPhotos: function(album_id){
         
         var groupPhotos = $('.fbphotofeed');
-        var html = "<ul class='multiple_columns'>";
+        var html = "<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><br/><br/><ul class='multiple_columns'>";
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
-            //  console.log("inside getJson call, I got clicked "+album_id);
-           
-
             $.each(json.data, function(i, fb){
               var imagestring = "<img src='"+fb.source+"' alt='CYW' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+ (typeof fb.name === "undefined" ? "CYW Photos" : fb.name)+"&quot;, CENTER);' onmouseout='nd();'/>"
                 
                 html += "<li>"+imagestring;
                 html += "<span>"+ (typeof fb.name === "undefined" ? "CYW Photos" : fb.name)+"</span></li>";
-                // console.log("This is the name "+fb.name+" this is the count "+i);
             });
             html += "</ul>";
-            // console.log(html)
-          
             groupPhotos.animate({ opacity:0}, 500, function(){
-                   groupPhotos.html(html);
+                groupPhotos.html(html);
                 }) 
         
             groupPhotos.animate({opacity:1}, 500);
-        })
-       // GetAlbums.callOverlay();
-        
+        }).error(function() { $('.fbphotofeed').html("<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><span style='background: red; color: white;'><h1> 500: Internal server error. </h1></span>"); })
     },
     getFirstPhoto : function (album_id){
         var photo;
         var pselector = "#album-cover-"+album_id;
-        // console.log("i got called");
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
-            photo ="<a href='#' class='album-cover-image-"+album_id+"' onclick='GetAlbums.getPhotos("+album_id+")' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
+            photo ="<a href='?id="+album_id+"' class='album-cover-image-"+album_id+"' onclick='GetAlbums.getPhotos("+album_id+")' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
             $($.trim(pselector)).prepend(photo);
-            // console.log("ID is: "+album_id+" Photo from getJson: "+photo);
-            
         });
     },
     getUrlVars: function() {
@@ -100,7 +85,14 @@ var GetAlbums = {
                 'top':'70px'
             }, 500);
         });
-    }
+    },
+    isInt: function(x) { 
+        var y=parseInt(x); 
+        if (isNaN(y)) 
+            return false; 
+        else
+            return true; 
+ } 
     
 };
 
