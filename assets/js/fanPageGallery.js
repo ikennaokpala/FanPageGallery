@@ -54,8 +54,9 @@ var GetAlbums = {
            
 
             $.each(json.data, function(i, fb){
-               
-                html += "<li><img src=" + fb.source + " width='180' height='180' border='1'/>";
+              var imagestring = "<img src='"+fb.source+"' alt='CYW' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+ (typeof fb.name === "undefined" ? "CYW Photos" : fb.name)+"&quot;, CENTER);' onmouseout='nd();'/>"
+                
+                html += "<li>"+imagestring;
                 html += "<span>"+ (typeof fb.name === "undefined" ? "CYW Photos" : fb.name)+"</span></li>";
                 // console.log("This is the name "+fb.name+" this is the count "+i);
             });
