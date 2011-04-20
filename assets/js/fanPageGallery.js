@@ -3,10 +3,27 @@ jQuery(function($) {
     if(GetAlbums.isInt(GetAlbums.getUrlVars().id) & GetAlbums.getUrlVars().id > 0)
         GetAlbums.getPhotos(GetAlbums.getUrlVars().id, unescape(GetAlbums.getUrlVars().albumname));
     else
+        GetAlbums.getVideos();
         GetAlbums.getAlbumCollection();
 });
 
-var GetAlbums = {
+var GetAlbums = { 
+    getVideos: function(){  
+        var groupVideos = $('.fbvideofeed');
+ var html = "<ul class='multiple_columns'>";
+        $.getJSON("http://graph.facebook.com/Community.of.Yahweh.Worldwide/videos?callback=?", function(json) {
+            console.log(json)
+           /* $.each(json.data, function(i, fb){
+                html += "<li > "+fb.source+"</li>"
+            })*/
+                })
+        html += "</ul>";
+        groupVideos.animate({ opacity:0}, 500, function(){
+            groupVideos.html(html);
+        });
+        groupVideos.animate({opacity:1}, 500);
+                
+    },
     getAlbumCollection: function(){
         
         var groupAlbums = $('.fbphotofeed');
@@ -43,7 +60,7 @@ var GetAlbums = {
         });
     },
     getPhotos: function(album_id, album_name){
-        
+        $('.fbvideofeed').hide();
         var groupPhotos = $('.fbphotofeed');
         var html = "<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><h1>Pictures from "+album_name+" Album. </h1><br/><ul class='multiple_columns'>";
         $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
