@@ -24,12 +24,12 @@
         getPhotos: function(album_id, album_name, fanPhotoTagClass){
             var fanPhotoTagClass = $(fanPhotoTagClass);
             var html = "<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><h1>Pictures from "+album_name+" Album. </h1><br/><ul class='multiple_columns'>";
-            $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
+            $.getJSON("http://graph.facebook.com/"+album_id+"/photos?limit=200&callback=?", function(json) {
                 $.each(json.data, function(i, fb){
-                    var imagestring = "<img src='"+fb.source+"' alt='CYW' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+ (typeof fb.name === "undefined" ? album_name : fb.name)+"&quot;, CENTER);' onmouseout='nd();'/>"
+                    var imagestring = "<img src='"+fb.source+"' alt='CYW' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+(typeof fb.name === "undefined" ? GetAlbums.replaceSingleDoubleQuotes(album_name) : GetAlbums.replaceSingleDoubleQuotes(fb.name))+"&quot;, CENTER);' onmouseout='nd();'/>"
                 
                     html += "<li>"+imagestring;
-                    html += "<span>"+ (typeof fb.name === "undefined" ? album_name : fb.name)+"</span></li>";
+                    html += "<span><br>"+ (typeof fb.name === "undefined" ? album_name : fb.name)+"</span></li>";
                 });
                 html += "</ul>";
           
@@ -92,7 +92,12 @@
                 return false; 
             else
                 return true; 
-        } 
+        },
+        replaceSingleDoubleQuotes: function(title){
+            var title = title.replace(/\'/g, "\\&#39;")
+            title = title.replace(/\"/g, "\\&#34;")
+            return title;
+        }
     };
     
 })(jQuery);
