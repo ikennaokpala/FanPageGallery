@@ -32,11 +32,9 @@
                     html += "<span><br>"+ (typeof fb.name === "undefined" ? album_name : fb.name)+"</span></li>";
                 });
                 html += "</ul>";
-          
                 fanPhotoTagClass.animate({ opacity:0}, 500, function(){
                     fanPhotoTagClass.html(html);
                 }) 
-        
                 fanPhotoTagClass.animate({opacity:1}, 500);
             }).error(function() { fanPhotoTagClass.html("<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><span style='background: red; color: white;'><h1> 500: Internal server error. Refresh your browser and try again. </h1></span>"); })
 },
