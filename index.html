@@ -3,7 +3,7 @@
   
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>CYW-APP</title>
+    <title>Fan Page Gallery</title>
     
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     
@@ -14,35 +14,21 @@
     <link href="assets/css/style.css" rel="stylesheet" type="text/css" />
     
     <!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="templates/ie.css" /><![endif]-->
+<script type="text/javascript" language="javascript">
+/* $.fanPageGallery({
+fanPageName: 'Community.of.Yahweh.Worldwide',
+});*/
+ $(".fbphotofeed").fanPageGallery({
+      fanPageName: 'Community.of.Yahweh.Worldwide'
+ });
+</script>
   </head>
   
   <body>
     
-    <h1>CYW-APP</h1>
-    
-    <div id="videofeed" class="fbvideofeed">  <img src="assets/images/ajax-loader2.gif" id="loading" > Loading Videos...</div>
+    <h1>Fan Page Gallery</h1>
     <div id="photofeed" class="fbphotofeed">  <img src="assets/images/ajax-loader2.gif" id="loading" > Loading Pictures...</div>
-   
-      <!-- The overlay and the box -->
-      <div class="overlay" id="overlay" style="display:none;"></div>
-     <!-- <div class="box" id="box">
-        <a class='boxclose' id='boxclose'></a>
-       <ul id="nav">
-			<li id="prev"><a href="#">Previous</a></li>
-			<li id="next"><a href="#">Next</a></li>
-
-		</ul>
-
-  
-</div> -->
 </div>
-
-
-<!-- <div id="latest-flickr-images"> 
-     <ul> 
-     
-     </ul> 
-     </div> -->
 </body>
 
 </html>
