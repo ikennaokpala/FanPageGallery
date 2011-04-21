@@ -42,7 +42,7 @@
             var photo;
             var pselector = "#album-cover-"+album_id;
             $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
-                photo ="<a href='?id="+album_id+"&albumname="+album_name+"' class='album-cover-image-"+album_id+" onmouseover='return overlib(\&quot;Click here to view more pictures from the "+album_name+" Album.\&quot;);' onmouseout='nd();' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
+                photo ="<a href='?id="+album_id+"&albumname="+album_name+"' class='album-cover-image-"+album_id+"' onmouseover='return overlib(\&quot;Click here to view more pictures from the "+album_name+" Album.\&quot;);' onmouseout='nd();' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
                 $($.trim(pselector)).prepend(photo);
             });
         },
