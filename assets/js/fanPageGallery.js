@@ -27,8 +27,8 @@
         var fanPhotoTagClass = this.selector.toString()
         
         $(function() {
-            if(StringUtilHelpers.isInt(StringUtilHelpers.getUrlVars().id) & StringUtilHelpers.getUrlVars().id > 0)
-                GetAlbums.getPhotos(StringUtilHelpers.getUrlVars().id, unescape(StringUtilHelpers.getUrlVars().albumname), fanPhotoTagClass);
+            if(UtilHelper.isInt(UtilHelper.getUrlVars().id) & UtilHelper.getUrlVars().id > 0)
+                GetAlbums.getPhotos(UtilHelper.getUrlVars().id, unescape(UtilHelper.getUrlVars().albumname), fanPhotoTagClass);
             else
                 GetAlbums.getAlbumCollection(fanPageName, fanPhotoTagClass);
         });
@@ -38,14 +38,14 @@
         
         getAlbumCollection: function(fanPageName, fanPhotoTagClass){
             
-            return this.ajaxCall(fanPageName, fanPhotoTagClass);
+            return this.ajaxCallForAlbums(fanPageName, fanPhotoTagClass);
         },
         getPhotos: function(album_id, album_name, fanPhotoTagClass){
             var fanPhotoTagClass = $(fanPhotoTagClass);
             var html = "<a href='javascript:history.go(-1)'> BACK TO PHOTO ALBUMS</a> <br/><h1>Pictures from "+album_name+" Album. </h1><br/><ul class='multiple_columns'>";
             $.getJSON("http://graph.facebook.com/"+album_id+"/photos?limit=200&callback=?", function(json) {
                 $.each(json.data, function(i, fb){
-                    var imagestring = "<img src='"+fb.source+"' alt='Fan Page Gallery' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+(typeof fb.name === "undefined" ? StringUtilHelpers.replaceSingleDoubleQuotes(album_name) : StringUtilHelpers.replaceSingleDoubleQuotes(fb.name))+"&quot;, CENTER);' onmouseout='nd();'/>"
+                    var imagestring = "<img src='"+fb.source+"' alt='Fan Page Gallery for "+album_name+" Album' width='180' height='180' border='1' onmouseover='return overlib(&quot;&lt;img src=\\&quot;"+fb.source+"\\&quot;&gt;&quot;, CAPTION, &quot;"+(typeof fb.name === "undefined" ? UtilHelper.replaceSingleDoubleQuotes(album_name) : UtilHelper.replaceSingleDoubleQuotes(fb.name))+"&quot;, CENTER);' onmouseout='nd();'/>"
                     
                     html += "<li>"+imagestring;
                     html += "<span><br>"+ (typeof fb.name === "undefined" ? album_name : fb.name)+"</span></li>";
@@ -61,11 +61,11 @@
             var photo;
             var pselector = "#album-cover-"+album_id;
             $.getJSON("http://graph.facebook.com/"+album_id+"/photos?callback=?", function(json) {
-                photo ="<a href='?id="+album_id+"&albumname="+album_name+"' class='album-cover-image-"+album_id+"' onmouseover='return overlib(\&quot;Click here to view more pictures from the "+album_name+" Album.\&quot;);' onmouseout='nd();' ><img src="+ json.data[0].source+" width='180' height='180'  border='1' /></a><br/>";
+                photo ="<a href='?id="+album_id+"&albumname="+album_name+"' class='album-cover-image-"+album_id+"' onmouseover='return overlib(\&quot;Click here to view more pictures from the "+album_name+" Album.\&quot;);' onmouseout='nd();' ><img src="+ json.data[0].source+" width='180' alt='Fan Page Gallery for "+album_name+" Album' height='180'  border='1' /></a><br/>";
                 $($.trim(pselector)).prepend(photo);
             });
         },
-        ajaxCall: function(fanPageName, fanPhotoTagClass){
+        ajaxCallForAlbums: function(fanPageName, fanPhotoTagClass){
             var fanPhotoTagClass = $(fanPhotoTagClass);
             var tag_id = "";
             var html = "<ul class='multiple_columns'>";
@@ -96,17 +96,17 @@
             });
         }
     };
-    var StringUtilHelpers = {
+    var UtilHelper = {
         getUrlVars: function() {
             var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
                 vars[key] = value;
             });
             return vars;
         },
         
         isInt: function(x) { 
-            var y=parseInt(x); 
+            var y = parseInt(x); 
             if (isNaN(y)) 
                 return false; 
             else
