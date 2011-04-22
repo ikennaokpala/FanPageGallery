@@ -28,13 +28,13 @@
         
         $(function() {
             if(UtilHelper.isInt(UtilHelper.getUrlVars().id) & UtilHelper.getUrlVars().id > 0)
-                GetAlbums.getPhotos(UtilHelper.getUrlVars().id, unescape(UtilHelper.getUrlVars().albumname), fanPhotoTagClass);
+                FBGallery.getPhotos(UtilHelper.getUrlVars().id, unescape(UtilHelper.getUrlVars().albumname), fanPhotoTagClass);
             else
-                GetAlbums.getAlbumCollection(fanPageName, fanPhotoTagClass);
+                FBGallery.getAlbumCollection(fanPageName, fanPhotoTagClass);
         });
         
     };
-    var GetAlbums = { 
+    var FBGallery = { 
         
         getAlbumCollection: function(fanPageName, fanPhotoTagClass){
             
@@ -77,7 +77,7 @@
                     $.each(json.data, function(i, fb){
                         
                         tag_id = "album-cover-"+fb.id;
-                        GetAlbums.getFirstPhoto(fb.id, fb.name);
+                        FBGallery.getFirstPhoto(fb.id, fb.name);
                         html += "<li id="+tag_id+">";
                         html += "<span>" + fb.name + "</span><br/> <input class='album_id' type='hidden' value="+fb.id+" ></li>";
                         
