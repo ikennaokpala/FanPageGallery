@@ -1,7 +1,26 @@
+/*
+    Fan Page Gallery 
+    
+    By Ikenna Okpala: http://ikennaokpala.wordpress.com
+
+    To use you must have an facebook fan page ready.
+    Also you are required to provide your facebook fan page name. For more on fan page username visit this link: https://www.facebook.com/help/?page=900
+    Make sure to pass in valid facebook fan page username.
+    
+    example:
+    <script type="text/javascript" language="javascript">
+    $(".fbphotofeed").fanPageGallery({ 
+
+         fanPageName: 'Community.of.Yahweh.Worldwide' //this is the username of the fan page. For more visit this link: https://www.facebook.com/help/?page=900
+
+     });
+     </script>
+*/
+
 (function($) {
     $.fn.fanPageGallery = function (callerSettings) {
         var settings = $.extend({
-            fanPageName: 'cocacola', // this is the name of the fan page
+            fanPageName: 'ThoughtWorks', // this is the name of the fan page
             
         }, callerSettings||{});
         var fanPageName = settings.fanPageName  
