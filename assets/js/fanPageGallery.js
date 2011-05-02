@@ -20,7 +20,7 @@
 (function($) {
     $.fn.fanPageGallery = function (callerSettings) {
         var settings = $.extend({
-            fanPageName: 'ThoughtWorks', // this is the name of the fan page
+            fanPageName: 'ThoughtWorks' // this is the name of the fan page
             
         }, callerSettings||{});
         var fanPageName = settings.fanPageName  
