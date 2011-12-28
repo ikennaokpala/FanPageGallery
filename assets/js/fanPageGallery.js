@@ -120,9 +120,13 @@
 
         makeClickable: function(title) {
             var pattern = /(ftp|https?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i;
+            if (title.match(pattern) == null || title.match(pattern).length == 0) {
+             return title;
+            } else {
             var href = title.match(pattern)[0];
-            var newtitle = title.replace(pattern, "<a href='"+href+"'>"+href+"</a>");
-            return newtitle;        
+            var newtitle = title.replace(pattern, "<a target='_blank' href='" + href + "'>" + href + "</a>");
+            return newtitle
+           }     
         }
     };
     
