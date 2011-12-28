@@ -116,6 +116,13 @@
             var title = title.replace(/\'/g, "\\&#39;")
             title = title.replace(/\"/g, "\\&#34;")
             return title;
+        },
+
+        makeClickable: function(title) {
+            var pattern = /(ftp|https?):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/i;
+            var href = title.match(pattern)[0];
+            var newtitle = title.replace(pattern, "<a href='"+href+"'>"+href+"</a>");
+            return newtitle;        
         }
     };
     
