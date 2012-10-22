@@ -69,8 +69,8 @@
         },
         ajaxCallForAlbums: function(fanPageName, fanPhotoTagClass){
             var fanPhotoTagClass = $(fanPhotoTagClass);
-            var tag_id = "";
-            var html = "<h1>CYW Photo Gallery</h1> <b>Click on any to view more pictures.</b><ul class='multiple_columns'>";
+            var tag_id = ""; 
+            var html = "<ul class='multiple_columns'>";
             $.ajax({
                 type: "GET",
                 url: "http://graph.facebook.com/"+fanPageName+"/albums?callback=?",
